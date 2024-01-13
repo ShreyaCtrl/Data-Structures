@@ -1,6 +1,5 @@
 import sys
 
-
 class Node:
     def __init__(self, data):
         self.data = data
@@ -49,6 +48,7 @@ class RedBlackTree:
             while root.right is not None and not isinstance(root.right, NullNode):
                 root = root.right
             return root
+        
     def insert(self, data):
         new_node = Node(data)
         if self.root is None:
@@ -231,10 +231,13 @@ class RedBlackTree:
             parent = grand_parent.parent
             if parent is not None:
                 grand_parent = parent.parent
-                if grand_parent.left == parent:
-                    uncle = grand_parent.right
-                else:
-                    uncle = grand_parent.left
+                if grand_parent is not None:
+                    if grand_parent.left == parent:
+                        uncle = grand_parent.right
+                    elif grand_parent.right == parent:
+                        uncle = grand_parent.left
+                    else:
+                        uncle = None
                 self.imbalance(new_node, parent, grand_parent, uncle)
             else:
                 self.root = new_node

@@ -3,7 +3,7 @@ class TrieNode:
         self.endOfWord = False
         self.children = {}
         self.countOfWords = 0
-        # print(type(self.children))
+
     def insert(self, word):
         currentNode = self
         for i in range(len(word)):

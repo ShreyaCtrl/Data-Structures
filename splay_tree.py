@@ -112,12 +112,12 @@ class Splay_Tree:
 
 
     def zig_zig(self, node, parent, grandparent):
-        self.right_rotate(parent)
         self.right_rotate(grandparent)
+        self.right_rotate(parent)
 
     def zag_zag(self, node, parent, grandparent):
-        self.left_rotate(parent)
         self.left_rotate(grandparent)
+        self.left_rotate(parent)
 
 
     def zig_zag(self, node, parent, grandparent):

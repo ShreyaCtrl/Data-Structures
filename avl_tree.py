@@ -1,21 +1,39 @@
 class Node:
-    def __init__(self, data):
+    def __init__(self, data, parent):
         self.data = data
-        self.parent = None
+        self.parent = parent
         self.left = None
         self.right = None
-        self.height = 
+        self.height = None
         self.balance_factor = 0
 
-    def find_bal_fac(self):
-        left_height = -1
-        if self.left:
-            left_height = self.left.height
-        right_height = -1
-        if self.right:
-            right_height = self.right.height
-        self.balance_factor = left_height - right_height
+    # def find_bal_fac(self):
+    #     left_height = -1
+    #     if self.left:
+    #         left_height = self.left.height
+    #     right_height = -1
+    #     if self.right:
+    #         right_height = self.right.height
+    #     self.balance_factor = left_height - right_height
+    #     return self.balance_factor
+    
+    @property
+    def balance_factor(self):
         return self.balance_factor
+    
+    @balance_factor.setter 
+    def balance_factor(self):
+        self.balance_factor = self.left.height - self.right.height
+    
+    def find_height(self):
+        if not self.right and not self.left:
+            self.height = 0
+        elif not self.right:
+            self.height = self.left.height + 1
+        elif not self.left:
+            self.height = self.right.height + 1
+        else:
+            self.height = max(self.right.find_height(), self.left.find_height()) + 1  
 
 class AVLTree:
     def __init__(self, data):
@@ -35,7 +53,7 @@ class AVLTree:
             node.parent.right = new_root
         new_root.left = node
         node.parent = new_root
-        
+          
     def right_rotate(self, node):
         new_root = node.left
         node.left = new_root.right
@@ -51,8 +69,14 @@ class AVLTree:
         new_root.right = node
         node.parent = new_root
 
-    def insert(self, data):
-        pass
+    def insert_bst(self, root, data):
+        if not root:
+            root = Node(data)
+            root.find_height()
+        elif root.data < data:
+            self.insert_bst(self, root.right, data)
+        elif root.data > data:
+            self.insert_bst(self, root.left, data)
     
     def delete(self, data):
         pass

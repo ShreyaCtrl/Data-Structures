@@ -1,4 +1,4 @@
-# Segment Tree
+# <u>Segment Tree</u>
 
 ## Introduction
 

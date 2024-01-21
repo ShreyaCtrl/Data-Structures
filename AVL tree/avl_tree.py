@@ -7,18 +7,7 @@ class Node:
         self.left = None
         self.right = None
         self.height = self.find_height()
-        # self.balance_factor = self._balance_factor()
 
-    # def find_bal_fac(self):
-    #     left_height = -1
-    #     if self.left:
-    #         left_height = self.left.height
-    #     right_height = -1
-    #     if self.right:
-    #         right_height = self.right.height
-    #     self.balance_factor = left_height - right_height
-    #     return self.balance_factor
-    
     @property
     def balance_factor(self):
         left_height = -1 if not self.left else self.left.height
@@ -83,7 +72,7 @@ class AVLTree:
         # print('slkfj')
         root = self.search(self.root, data)
         # print('passing', root.data)
-        self.balance(root, data)
+        self.balance(root)
         # self.print_helper(avl.root, '    ', True)
         root.height = root.find_height()
         # print(self.root.data)
@@ -117,7 +106,7 @@ class AVLTree:
         elif data > root.data:
             return self.search(root.right, data)
 
-    def balance(self, root, data):
+    def balance(self, root):
         root.height = root.find_height()
         balance_factor = root.balance_factor
         # print(root.data, balance_factor)
@@ -139,27 +128,36 @@ class AVLTree:
                 self.right_rotate(root.right)
                 self.left_rotate(root)
         if root.parent is not None:
-            self.balance(root.parent, data)
+            self.balance(root.parent)
         else:
             self.root = root
             return
-        
-    def delete(self, data):
-        root = self.search(self.root, data).parent
-        root = self._delete_bst(root, data)
-        self.balance(root, root.data)
-            
-    def _delete_bst(self, root, data):
-        if not root.left and not root.right:
-            root.parent = None
-        elif not root.left:
-            node = self.find_min(root.right)
-            root.data = node.data
-            return self._delete_bst(root.right, node.data)
+
+    def delete(self, root, data):
+        # Find the node to be deleted and remove it
+        if not root:
+            return root
+        elif data < root.data:
+            root.left = self.delete(root.left, data)
+        elif data > root.data:
+            root.right = self.delete(root.right, data)
         else:
-            node = self.find_max(root.left)
-            root.data = node.data
-            return self._delete_bst(root.left, node.data)
+            if root.left is None:
+                temp = root.right
+                root = None
+                return temp
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
+            temp = self.find_min(root.right)
+            root.data = temp.data
+            root.right = self.delete(root.right, temp.data)
+
+        # Balance the tree after deletion
+        self.balance(root)
+        # print('Returning ', root.data)
+        return root
 
     def find_min(self, root):
         if root is None or root.left is None:
@@ -168,6 +166,7 @@ class AVLTree:
 
     def find_max(self, root):
         if root is None or root.right is None:
+            print('max is ', root.data)
             return root
         return self.find_max(root.right)
 
@@ -185,8 +184,12 @@ class AVLTree:
             self.print_helper(node.left, indent, False)
             self.print_helper(node.right, indent, True)
     
-
+print('Insertion')
+print(2)
 avl = AVLTree(2)
+avl.print_helper(avl.root, '    ', True)
+print('_______________________________________________________________')
+print(12)
 avl.root = avl.insert_bst(avl.root, 12)
 avl.print_helper(avl.root, '    ', True)
 print('_______________________________________________________________')
@@ -216,7 +219,9 @@ print(42)
 avl.insert_bst(avl.root, 42)
 avl.print_helper(avl.root, '    ', True)
 print('_______________________________________________________________')
+print('Deletion')
+print('_______________________________________________________________')
 print(26)
-avl.delete(26)
+avl.delete(avl.root, 26)
 avl.print_helper(avl.root, '    ', True)
 print('_______________________________________________________________')

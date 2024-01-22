@@ -16,4 +16,5 @@ class LefistHeap:
     def __init__(self, data):
         self.root = Node(data)
         
-    def insert(self, data, )
+    def insert(self, data, ):
+        pass

@@ -9,8 +9,8 @@
 ## Implementation
 
 The code provided implements a segment tree in Python. The Segment class takes an array as input and builds a segment tree from it. The build_tree method recursively builds the segment tree by dividing the array into smaller segments and creating nodes for each segment. The build_min_query, build_max_query, and build_sum_query methods build the minimum, maximum, and sum queries for each segment, respectively.
-
 The print_tree method prints the segment tree in a hierarchical format.
+Java version code has errors
 
 ## Usage
 

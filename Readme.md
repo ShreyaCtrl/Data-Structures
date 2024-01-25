@@ -31,4 +31,7 @@
     - Store digit of number (Doubly linked)
     - Singly linked list
     - Polynomial subtract and add(Singly linked)
-
+7. Sorting
+   - Quicksort
+8. Tries
+   

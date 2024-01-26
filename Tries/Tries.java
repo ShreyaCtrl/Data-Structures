@@ -37,9 +37,11 @@ class Tries {
         TrieNode node = this.root;
         for (int i = 0; i < word.length(); i++) {
             char currentChar = word.charAt(i);
-            if (node.containsKey(currentChar)) continue;
-            else
-                node.putLink(currentChar, node);
+//            if (node.containsKey(currentChar)) continue;
+            if (!node.containsKey(currentChar)) {
+                node.putLink(currentChar, new TrieNode());
+            }
+            node = node.getLink(currentChar);
         }
         node.setEnd();
     }
@@ -49,8 +51,9 @@ class Tries {
         for (int i = 0; i < word.length(); i++) {
             char currentChar = word.charAt(i);
             if (!node.containsKey(currentChar)) return false;
-            else
+            else {
                 node = node.getLink(currentChar);
+            }
         }
         return node.isEnd();
     }
@@ -67,12 +70,14 @@ class Tries {
     }
 
     public static void main(String[] arg) {
-        Trie trie = new Trie();
+        Tries trie = new Tries();
         trie.insertNode("apple");
         System.out.println("Searching for apple : "+trie.search("apple"));   // return True
         System.out.println("Searching for app : "+trie.search("app"));     // return False
         System.out.println("startsWith for app : "+trie.startsWith("app")); // return True
         trie.insertNode("app");
         System.out.println("Searching for app after insertion : "+trie.search("app"));
+        System.out.println("_____________________________________________________________");
+
     }
 }

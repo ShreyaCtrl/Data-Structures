@@ -34,4 +34,6 @@
 7. Sorting
    - Quicksort
 8. Tries
+   - Standard tries
+   
    

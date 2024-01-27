@@ -1,50 +1,7 @@
 import java.util.*;
-import java.lang.*;
-class Node extends Null {
-    int low, high;
-    int max;
-    Null left, right, parent;
-    Node(int low, int high, Null parent) {
-//        super();
-        this.low = low;
-        this.high = high;
-        this.max = 0;
-        this.left = new Null();
-        this.right = new Null();
-        this.parent = parent;
-        this.colour = 'R';
-    }
+//import java.lang.*;
+import java.io.*;
 
-    int findMax() {
-        if (this.left.isNullNode() && this.right.isNullNode()) {
-            this.max = this.high;
-            return this.max;
-        } else if (this.left.isNullNode() && !this.right.isNullNode()) {
-            this.max = Math.max(this.high, this.right.findMax());
-            return this.max;
-        } else if (!this.left.isNullNode() && this.right.isNullNode()) {
-            this.max = Math.max(this.high, this.left.findMax());
-            return this.max;
-        } else {
-            this.max = Math.max(this.high, Math.max(this.left.findMax(), this.right.findMax()));
-            return this.max;
-        }
-    }
-
-    boolean isRed() {
-        return this.colour == 'R';
-    }
-}
-class Null {
-    char colour;
-    Null() {
-        this.colour = 'B';
-    }
-
-    boolean isNullNode() {
-        return ((this.colour == 'B') && this.isInstanceOf(Null.class) && !this.isInstanceOf(Node.class));
-    }
-}
 class IntervalTree {
     Node root;
     IntervalTree(int low, int high) {
@@ -58,7 +15,7 @@ class IntervalTree {
                 if (root.isRed() && root.left.isRed()) {
                     this.balanceInsert(root.left);
                 }
-                this.root.findMax();
+                this.root.max = this.root.findMax();
             } else {
                 this.insertNode(root.left, low, high);
             }
@@ -68,7 +25,7 @@ class IntervalTree {
                 if (root.isRed() && root.right.isRed()) {
                     this.balanceInsert(root.right);
                 }
-                this.root.findMax();
+                this.root.max = this.root.findMax();
             } else {
                 this.insertNode(root.right, low, high);
             }
@@ -119,8 +76,8 @@ class IntervalTree {
             return;
         }
         Node parent = node.parent;
-        Node grandparent = node.parent.parent;
-        Null uncle;
+        Node grandparent = parent.parent;
+        Node uncle;
         if (!grandparent.isNullNode()) {
             uncle = grandparent.left == node.parent ? grandparent.right : grandparent.left;
         } else {
@@ -196,8 +153,8 @@ class IntervalTree {
 //        }
     }
 
-    void printTree(Null node, String indent, boolean last) {
-        if (!node.isNullNode()) {
+    void printTree(Node node, String indent, boolean last) {
+        if (node instanceof Node) {
 //             && (node != null)
             System.out.print(indent);
             if (last) {
@@ -210,14 +167,83 @@ class IntervalTree {
 //            System.out.println(node.data);
 //            System.out.println( "(", node.low, node.high, ")", "(", node.colour, ")", ':', node.max);
             System.out.println("(" + node.low + ", " + node.high + ") (" + node.colour + ") : " + node.max);
-            if (!node.left.isNullNode())
+            if (node.left instanceof Node)
                 this.printTree(node.left, indent, false);
-            if (!node.right.isNullNode())
+            if (node.right instanceof Node)
                 this.printTree(node.right, indent, true);
         }
     }
 
     public static void main(String[] args) {
-
+        int[][] nodes = {{20, 25}, {15, 40}, {30, 65}, {5, 80}, {18, 70}, {25, 70}, {40, 50}};
+//        Node root = new Node(nodes[0][0], nodes[0][1], new Null());
+        IntervalTree intervalTree = new IntervalTree(nodes[0][0], nodes[0][1]);
+        intervalTree.root.findMax();
+        intervalTree.printTree(intervalTree.root, "    ", true);
+        System.out.println("____________________________________________________");
+        for (int i = 1; i < 7; i++) {
+            System.out.println(i);
+            intervalTree.insertNode(intervalTree.root, nodes[i][0], nodes[i][1]);
+//            intervalTree.buildMaxValue(intervalTree.treeRoot);
+            intervalTree.printTree(intervalTree.root, "    ", true);
+            System.out.println("____________________________________________________");
+        }
     }
+}
+class Node {
+    int low, high;
+    int max;
+    char colour;
+    Node left, right, parent;
+    Node(int low, int high, Node parent, Node left, Node right) {
+//        super();
+        this.low = low;
+        this.high = high;
+        this.max = 0;
+        this.left = left;
+        this.right = right;
+        this.parent = parent;
+        this.colour = 'R';
+    }
+
+    boolean isNode() {
+        return (this instanceof Node);
+    }
+
+    int findMax() {
+        if (this.left.isNullNode() && this.right.isNullNode()) {
+            this.max = this.high;
+            return this.max;
+        } else if (this.left.isNullNode()) {
+            this.max = Math.max(this.high, this.right.findMax());
+            return this.max;
+        } else if (this.right.isNullNode()) {
+            this.max = Math.max(this.high, this.left.findMax());
+            return this.max;
+        } else {
+            this.max = Math.max(this.high, Math.max(this.left.findMax(), this.right.findMax()));
+            return this.max;
+        }
+    }
+
+    boolean isRed() {
+        return this.colour == 'R';
+    }
+
+    boolean isNullNode() {
+        return ((this.colour == 'B') && (this instanceof Null));
+    }
+}
+class Null extends Node {
+    //    char colour;
+    Null() {
+        super(Integer.MIN_VALUE, Integer.MAX_VALUE, null, null, null);
+        this.colour = 'B';
+    }
+
+//    boolean isRed() {
+//        return this.colour == 'R';
+//    }
+
+
 }

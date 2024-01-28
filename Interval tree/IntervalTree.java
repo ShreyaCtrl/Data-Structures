@@ -5,13 +5,14 @@ import java.io.*;
 class IntervalTree {
     Node root;
     IntervalTree(int low, int high) {
-        this.root = new Node(low, high, new Null());
+        this.root = new Node(low, high, new Null(), new Null(), new Null());
+        this.balanceInsert(this.root);
     }
 
     void insertNode(Node root, int low, int high) {
         if (root.low > low) {
             if (root.left.isNullNode()) {
-                root.left = new Node(low, high, root);
+                root.left = new Node(low, high, root,  new Null(), new Null());
                 if (root.isRed() && root.left.isRed()) {
                     this.balanceInsert(root.left);
                 }
@@ -21,7 +22,7 @@ class IntervalTree {
             }
         } else if (root.low < low) {
             if (root.right.isNullNode()) {
-                root.right = new Node(low, high, root);
+                root.right = new Node(low, high, root, new Null(), new Null());
                 if (root.isRed() && root.right.isRed()) {
                     this.balanceInsert(root.right);
                 }
@@ -167,10 +168,41 @@ class IntervalTree {
 //            System.out.println(node.data);
 //            System.out.println( "(", node.low, node.high, ")", "(", node.colour, ")", ':', node.max);
             System.out.println("(" + node.low + ", " + node.high + ") (" + node.colour + ") : " + node.max);
-            if (node.left instanceof Node)
+            if (!(node.left instanceof Null))
                 this.printTree(node.left, indent, false);
-            if (node.right instanceof Node)
+            if (!(node.right instanceof Null))
                 this.printTree(node.right, indent, true);
+        }
+
+    }
+    void singleOverlapNoBacktracking(Node root, int low, int high) {
+        if (!(root instanceof Null)) {
+            if ((root.low < high) && (root.high > low)) {
+                System.out.println("Overlapping interval found");
+                System.out.println("("+root.low+","+root.high+")");
+            } else if (low < root.left.max) {
+                this.singleOverlapNoBacktracking(root.left, low, high);
+            } else {
+                this.singleOverlapNoBacktracking(root.right, low, high);
+            }
+        } else {
+            System.out.println("No Overlapping interval found");
+        }
+    }
+
+    void allOverlappingIntervals(Node root, int low, int high, Stack st) {
+        if (!(root instanceof Null)) {
+            if ((root.low < high) && (root.high > low)) {
+                this.allOverlappingIntervals(root.left, low, high, st);
+                this.allOverlappingIntervals(root.right, low, high, st);
+                st.push(root);
+            } if (low < root.left.max) {
+                this.allOverlappingIntervals(root.left, low, high, st);
+            } if (low < root.right.max) {
+                this.allOverlappingIntervals(root.right, low, high, st);
+            }
+        } else {
+            return;
         }
     }
 
@@ -187,6 +219,19 @@ class IntervalTree {
 //            intervalTree.buildMaxValue(intervalTree.treeRoot);
             intervalTree.printTree(intervalTree.root, "    ", true);
             System.out.println("____________________________________________________");
+        }
+        System.out.println("Enter the interval to check overlap : ");
+        Scanner sc = new Scanner(System.in);
+        int low = sc.nextInt();
+        int high = sc.nextInt();
+        System.out.println("Single Overlap No Backtracking");
+        intervalTree.singleOverlapNoBacktracking(intervalTree.root, low, high);
+        System.out.println("All Overlapping intervals");
+        Stack<Node> st = new Stack<Node>();
+        intervalTree.allOverlappingIntervals(intervalTree.root, low, high, st);
+        for (int i = 0; i < st.size(); i++) {
+            Node root = st.pop();
+            System.out.println("("+root.low+","+root.high+")");
         }
     }
 }

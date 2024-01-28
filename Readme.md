@@ -33,7 +33,13 @@
     - Polynomial subtract and add(Singly linked)
 7. Sorting
    - Quicksort
-8. Tries
-   - Standard tries
+8. Standard Tries
+   - Insert
+   - Search
+   - StartsWith
+9. Interval Tree
+   - Insert 
+   - Single overlap no backtracking
+   - 
    
    

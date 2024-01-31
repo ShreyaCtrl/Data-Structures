@@ -33,6 +33,7 @@
     - Polynomial subtract and add(Singly linked)
 7. Sorting
    - Quicksort
+   - Heapsort
 8. Standard Tries
    - Insert
    - Search
@@ -40,6 +41,10 @@
 9. Interval Tree
    - Insert 
    - Single overlap no backtracking
-   - 
+   - Multiple overlap with backtracking
+10. Heaps
+    - Build Max Heap
+    - Max Heapify
+
    
    

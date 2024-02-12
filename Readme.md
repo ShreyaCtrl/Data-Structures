@@ -32,19 +32,24 @@
     - Singly linked list
     - Polynomial subtract and add(Singly linked)
 7. Sorting
-   - Quicksort
-   - Heapsort
+    - Quicksort
+    - Heap sort
+    - Merge sort
+    - Counting sort
 8. Standard Tries
-   - Insert
-   - Search
-   - StartsWith
+    - Insert
+    - Search
+    - StartsWith
 9. Interval Tree
-   - Insert 
-   - Single overlap no backtracking
-   - Multiple overlap with backtracking
+    - Insert 
+    - Single overlap no backtracking
+    - Multiple overlap with backtracking
 10. Heaps
     - Build Max Heap
     - Max Heapify
+11. Dynamic Programming 
+    - Rod Cutting
+    - Matrix Chain
 
    
    

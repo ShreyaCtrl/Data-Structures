@@ -50,6 +50,8 @@
 11. Dynamic Programming 
     - Rod Cutting
     - Matrix Chain
+12. Sliding Window
+    - Pizza Shop
 
    
    

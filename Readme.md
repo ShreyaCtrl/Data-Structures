@@ -52,6 +52,7 @@
     - Matrix Chain
 12. Sliding Window
     - Pizza Shop
+    - Remove Nth node form end of linked list
 
    
    

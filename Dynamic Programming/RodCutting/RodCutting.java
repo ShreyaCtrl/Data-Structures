@@ -29,13 +29,13 @@ class RodCutting {
         return q;
     }
 
-//    void printCuttingSolution(int[] price, int n) {
-//        while (n > 0) {
-//            int q = memoizedCutRod(price, n);
-//            System.out.println("Cut at length " + (n) + ", Price: " + price[n] + ", Optimal cost: " + q);
-//            n = n - q; // Moving to next piece
-//        }
-//    }
+   void printCuttingSolution(int[] price, int n) {
+       while (n > 0) {
+           int q = memoizedCutRod(price, n);
+           System.out.println("Cut at length " + (n) + ", Price: " + price[n] + ", Optimal cost: " + q);
+           n = n - q; // Moving to next piece
+       }
+   }
 
     public static void main(String[] arg) {
         RodCutting rodCutting = new RodCutting();
@@ -43,7 +43,7 @@ class RodCutting {
         int n = price.length;
         int optimalCost = rodCutting.memoizedCutRod(price, n-1); // n - 1 because array is 0-based
         System.out.println("Optimal Cost: " + optimalCost);
-//        System.out.println("Optimal Cutting:");
-//        rodCutting.printCuttingSolution(price, n-1);
+       System.out.println("Optimal Cutting:");
+       rodCutting.printCuttingSolution(price, n-1);
     }
 }
